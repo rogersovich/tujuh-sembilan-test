@@ -24,6 +24,7 @@ import Avatar from 'primevue/avatar'
 import Skeleton from 'primevue/skeleton';
 import Dialog from 'primevue/dialog';
 import Toast from 'primevue/toast';
+import ProgressSpinner from 'primevue/progressspinner';
 
 const app = createApp(App)
 const head = createHead()
@@ -38,6 +39,7 @@ app.component('PAvatar', Avatar);
 app.component('PSkeleton', Skeleton);
 app.component('PDialog', Dialog);
 app.component('PToast', Toast);
+app.component('PProgressSpinner', ProgressSpinner);
 
 app.use(createPinia())
 app.use(router)

@@ -11,21 +11,24 @@ const props = defineProps({
     required: true
   }
 })
-const emit = defineEmits(['update:modelValue', 'toggleToast'])
+const emit = defineEmits(['update:modelValue', 'toggleToast', 'toggleLoading'])
 
 // Mutation
 const mutationCreate = useMutation({
   mutationFn: (formData) => {
     emit('update:modelValue', false)
+    emit('toggleLoading')
     return createUsers(formData)
   },
   onSuccess: () => {
+    emit('toggleLoading')
     emit('toggleToast', {
       type: 'success',
       message: 'Success Create User'
     })
   },
   onError: () => {
+    emit('toggleLoading')
     emit('toggleToast', {
       type: 'error',
       message: 'Failed Create User'

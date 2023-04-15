@@ -5,6 +5,7 @@ import { useToast } from 'primevue/usetoast'
 import CardUser from '../components/users/CardUser.vue'
 import SkeletonCard from '../components/SkeletonCard.vue'
 import CreateDialog from '../components/users/CreateDialog.vue'
+import LoadingOverlay from '../components/LoadingOverlay.vue'
 // api
 import { fetchUsers } from '../api/reqres/users.js'
 import { useInfiniteQuery, useQueryClient } from '@tanstack/vue-query'
@@ -19,6 +20,7 @@ useHead({
 
 const createDialog = ref(false)
 const toast = useToast()
+const isLoad = ref(false)
 
 // Query
 const params = reactive({
@@ -112,7 +114,8 @@ const showToast = (val) => {
       </div>
     </div>
     <p-toast></p-toast>
-    <CreateDialog v-model="createDialog" @toggleToast="showToast" />
+    <LoadingOverlay :loading="isLoad"></LoadingOverlay>
+    <CreateDialog v-model="createDialog" @toggleToast="showToast" @toggleLoading="isLoad = !isLoad" />
   </div>
 </template>
 
