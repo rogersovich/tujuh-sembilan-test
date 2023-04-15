@@ -17,10 +17,13 @@ import "primevue/resources/primevue.min.css";
 import "primeicons/primeicons.css";
 
 // prime
+import ToastService from 'primevue/toastservice';
 import InputText from 'primevue/inputtext'
 import Button from 'primevue/button'
 import Avatar from 'primevue/avatar'
 import Skeleton from 'primevue/skeleton';
+import Dialog from 'primevue/dialog';
+import Toast from 'primevue/toast';
 
 const app = createApp(App)
 const head = createHead()
@@ -33,11 +36,14 @@ app.component('PButton', Button);
 app.component('PInputText', InputText);
 app.component('PAvatar', Avatar);
 app.component('PSkeleton', Skeleton);
+app.component('PDialog', Dialog);
+app.component('PToast', Toast);
 
 app.use(createPinia())
 app.use(router)
 app.use(head)
 app.use(VueQueryPlugin)
 app.use(PrimeVue);
+app.use(ToastService);
 
 app.mount('#app')

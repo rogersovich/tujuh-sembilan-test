@@ -1,10 +1,13 @@
 <script setup>
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
 import { useHead } from '@vueuse/head'
+import { useToast } from 'primevue/usetoast'
 import CardUser from '../components/users/CardUser.vue'
+import SkeletonCard from '../components/SkeletonCard.vue'
+import CreateDialog from '../components/users/CreateDialog.vue'
 // api
 import { fetchUsers } from '../api/reqres/users.js'
-import { useInfiniteQuery } from '@tanstack/vue-query'
+import { useInfiniteQuery, useQueryClient } from '@tanstack/vue-query'
 
 useHead({
   title: `Rogersovich - Users`,
@@ -14,11 +17,15 @@ useHead({
   ]
 })
 
+const createDialog = ref(false)
+const toast = useToast()
+
 // Query
 const params = reactive({
   page: 1,
   per_page: 4
 })
+const queryClient = useQueryClient()
 const {
   isLoading,
   isError,
@@ -42,30 +49,19 @@ const {
     }
   }
 })
+
+const showToast = (val) => {
+  toast.add({ severity: val.type, summary: val.type, detail: val.message, life: 2000 })
+  // Invalidate and refetch
+  queryClient.invalidateQueries({ queryKey: ['users'] })
+}
 </script>
 
 <template>
   <span v-if="isLoading">
     <div class="grid-12 tw-gap-6">
       <div class="tw-col-span-3" v-for="skel in 12" :key="skel">
-        <div class="tw-bg-white tw-px-4 tw-py-6 tw-rounded-lg shadow-sketch-line">
-          <div class="fcc tw-my-2.5">
-            <p-skeleton shape="circle" width="90px" height="90px"></p-skeleton>
-          </div>
-          <div>
-            <div class="fcc tw-mb-2 tw-mt-4">
-              <p-skeleton height="0.5rem" width="60%"></p-skeleton>
-            </div>
-            <div class="fcc">
-              <p-skeleton height="0.5rem" width="75%"></p-skeleton>
-            </div>
-          </div>
-          <br />
-          <div class="grid-2 tw-gap-4">
-            <p-skeleton height="2.4rem"></p-skeleton>
-            <p-skeleton height="2.4rem"></p-skeleton>
-          </div>
-        </div>
+        <SkeletonCard />
       </div>
     </div>
   </span>
@@ -78,7 +74,9 @@ const {
             <pInputText type="text" placeholder="Search user" class="tw-w-full tw-h-[46px]" />
           </div>
           <div class="tw-col-span-2">
-            <p-button class="tw-w-full tw-h-[46px] tw-justify-center"> Create New </p-button>
+            <p-button class="tw-w-full tw-h-[46px] tw-justify-center" @click="createDialog = true">
+              Create User
+            </p-button>
           </div>
         </div>
       </div>
@@ -113,6 +111,8 @@ const {
         </div>
       </div>
     </div>
+    <p-toast></p-toast>
+    <CreateDialog v-model="createDialog" @toggleToast="showToast" />
   </div>
 </template>
 
