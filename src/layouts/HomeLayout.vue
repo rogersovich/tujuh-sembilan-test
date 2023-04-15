@@ -16,11 +16,17 @@ const listNav = [
     to: router.push({ name: 'users' })
   }
 ]
+
+const year = new Date().getFullYear()
+
+const routeToGithub = () => {
+  window.open('https://github.com/rogersovich/tujuh-sembilan-test', '_blank')
+}
 </script>
 
 <template>
   <div>
-    <header class="tw-bg-[#0079D8] grid-12 tw-gap-4 tw-py-3 tw-px-6 tw-text-white">
+    <header class="tw-bg-[#0079D8] grid-12 tw-gap-4 tw-py-2 tw-px-6 tw-text-white">
       <div class="tw-col-span-4 fc">
         <div class="tw-text-[24px] medium">Rogersovich</div>
       </div>
@@ -39,7 +45,12 @@ const listNav = [
         </ul>
       </div>
       <div class="tw-col-span-4 fcr">
-        <Iconify icon="radix-icons:github-logo" width="40" />
+        <Iconify
+          icon="radix-icons:github-logo"
+          width="40"
+          class="tw-cursor-pointer"
+          @click="routeToGithub"
+        />
       </div>
     </header>
 
@@ -48,14 +59,10 @@ const listNav = [
     </main>
 
     <footer class="tw-bg-[#0079D8] tw-p-4">
-      <div class="tw-text-white tw-text-center tw-text-[18px]">
-        © 2023 design by rogersovich
-      </div>
+      <div class="tw-text-white tw-text-center tw-text-[18px]">© {{ year }} design by rogersovich</div>
     </footer>
   </div>
 </template>
-
-
 
 <style lang="css" scoped>
 .grow {

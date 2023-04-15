@@ -2,6 +2,7 @@
 import { toRef } from 'vue'
 import { object, string } from 'yup'
 import { Field, Form } from 'vee-validate'
+// api
 import { createUsers } from '../../api/reqres/users'
 import { useMutation } from '@tanstack/vue-query'
 
@@ -11,9 +12,10 @@ const props = defineProps({
     required: true
   }
 })
+const visible = toRef(props, 'modelValue')
 const emit = defineEmits(['update:modelValue', 'toggleToast', 'toggleLoading'])
 
-// Mutation
+// mutate create user
 const mutationCreate = useMutation({
   mutationFn: (formData) => {
     emit('update:modelValue', false)
@@ -36,17 +38,19 @@ const mutationCreate = useMutation({
   }
 })
 
-const visible = toRef(props, 'modelValue')
+// init form
 const initData = {
   name: '',
   job: ''
 }
 
+// schema validation create user
 const schema = object({
   name: string().required(),
   job: string().required()
 })
 
+// handle create
 const onSubmit = (values, actions) => {
   mutationCreate.mutate(values)
   actions.resetForm()

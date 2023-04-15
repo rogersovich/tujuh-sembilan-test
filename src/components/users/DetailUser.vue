@@ -1,5 +1,6 @@
 <script setup>
 import { toRef } from 'vue'
+// api
 import { fetchUser } from '../../api/reqres/users'
 import { useQuery } from '@tanstack/vue-query'
 
@@ -12,11 +13,10 @@ const props = defineProps({
     type: Number
   }
 })
-
+const visible = toRef(props, 'modelValue')
 const emit = defineEmits(['update:modelValue', 'removeID', 'toggleLoading'])
 
-const visible = toRef(props, 'modelValue')
-
+// fetch api detail user
 const { data, isLoading, isSuccess, isError, error } = useQuery({
   queryKey: ['user'],
   queryFn: async () => {

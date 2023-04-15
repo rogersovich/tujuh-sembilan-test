@@ -3,10 +3,12 @@ import { reactive, ref } from 'vue'
 import { useHead } from '@vueuse/head'
 import { useToast } from 'primevue/usetoast'
 import { useConfirm } from 'primevue/useconfirm'
+// component
 import CardUser from '../components/users/CardUser.vue'
 import SkeletonCard from '../components/SkeletonCard.vue'
-import CreateDialog from '../components/users/CreateDialog.vue'
+import CreateUser from '../components/users/CreateUser.vue'
 import DetailUser from '../components/users/DetailUser.vue'
+import EditUser from '../components/users/EditUser.vue'
 import LoadingOverlay from '../components/LoadingOverlay.vue'
 // api
 import { fetchUsers, deleteUsers } from '../api/reqres/users.js'
@@ -14,20 +16,19 @@ import { useInfiniteQuery, useQueryClient, useMutation } from '@tanstack/vue-que
 
 useHead({
   title: `Rogersovich - Users`,
-  meta: [
-    { name: 'description', content: 'This is an example' },
-    { property: 'og:title', content: 'Hello world' }
-  ]
+  meta: [{ name: 'description', content: 'This is page of list users' }]
 })
 
 const createDialog = ref(false)
 const detailDialog = ref(false)
+const editDialog = ref(false)
 const toast = useToast()
 const confirm = useConfirm()
 const isLoad = ref(false)
 const idEdit = ref(null)
+const idUpdate = ref(null)
 
-// Query
+// Fetch Api Users
 const params = reactive({
   page: 1,
   per_page: 4
@@ -63,6 +64,7 @@ const showToast = (val) => {
   queryClient.invalidateQueries({ queryKey: ['users'] })
 }
 
+// handle Create
 const handleDetail = (ID) => {
   isLoad.value = true
   setTimeout(() => {
@@ -71,6 +73,16 @@ const handleDetail = (ID) => {
   }, 500)
 }
 
+// handle Edit
+const handleEdit = (ID) => {
+  isLoad.value = true
+  setTimeout(() => {
+    editDialog.value = true
+    idUpdate.value = ID
+  }, 500)
+}
+
+// Handle Delete
 const deleteItemMutation = useMutation(
   async () => {
     deleteUsers(idEdit.value)
@@ -94,7 +106,6 @@ const deleteItemMutation = useMutation(
     }
   }
 )
-
 const handleDelete = (ID) => {
   idEdit.value = ID
   confirm.require({
@@ -152,6 +163,7 @@ const handleDelete = (ID) => {
           :fullname="`${user.first_name} ${user.last_name}`"
           :email="user.email"
           @submitDetail="handleDetail"
+          @submitEdit="handleEdit"
           @submitDelete="handleDelete"
         />
       </div>
@@ -176,26 +188,35 @@ const handleDelete = (ID) => {
       </div>
     </div>
 
+    <!-- init toast -->
     <p-toast></p-toast>
+    <!-- init confirm dialog -->
     <p-confirm-dialog></p-confirm-dialog>
-
+    <!-- init loading overlay -->
     <LoadingOverlay :loading="isLoad"></LoadingOverlay>
-
     <!-- Create User -->
-    <CreateDialog
-      v-if="createDialog"
+    <CreateUser
+      v-show="createDialog"
       v-model="createDialog"
       @toggleToast="showToast"
       @toggleLoading="isLoad = !isLoad"
     />
-
     <!-- Detail User -->
     <DetailUser
+      v-if="detailDialog"
       v-model="detailDialog"
       :id="idEdit"
       @removeID="idEdit = null"
       @toggleLoading="isLoad = false"
-      v-if="detailDialog"
+    />
+    <!-- Edit User -->
+    <EditUser
+      v-if="idUpdate"
+      v-model="editDialog"
+      :id="idUpdate"
+      @toggleToast="showToast"
+      @removeID="idUpdate = null"
+      @toggleLoading="isLoad = !isLoad"
     />
   </div>
 </template>

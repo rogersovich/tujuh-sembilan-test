@@ -10,6 +10,9 @@ const emit = defineEmits(['submitEdit', 'submitDetail', 'submitDelete'])
 const onDetail = () => {
   emit('submitDetail', props.id)
 }
+const onEdit = () => {
+  emit('submitEdit', props.id)
+}
 const onDelete = () => {
   emit('submitDelete', props.id)
 }
@@ -41,6 +44,7 @@ const onDelete = () => {
         <PButton
           class="tw-w-full tw-h-[36px] tw-justify-center tw-text-[14px]"
           severity="warning"
+          @click="onEdit"
         >
           Edit
         </PButton>
