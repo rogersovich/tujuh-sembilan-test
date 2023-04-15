@@ -6,9 +6,12 @@ const props = defineProps({
   email: String
 })
 
-const emit = defineEmits(['submitEdit', 'submitDetail'])
+const emit = defineEmits(['submitEdit', 'submitDetail', 'submitDelete'])
 const onDetail = () => {
   emit('submitDetail', props.id)
+}
+const onDelete = () => {
+  emit('submitDelete', props.id)
 }
 </script>
 
@@ -41,7 +44,7 @@ const onDetail = () => {
         >
           Edit
         </PButton>
-        <PButton class="tw-w-full tw-h-[36px] tw-justify-center tw-text-[14px]" severity="danger">
+        <PButton class="tw-w-full tw-h-[36px] tw-justify-center tw-text-[14px]" severity="danger" @click="onDelete">
           Delete
         </PButton>
       </div>

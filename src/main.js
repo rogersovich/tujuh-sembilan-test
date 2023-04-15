@@ -18,6 +18,8 @@ import "primeicons/primeicons.css";
 
 // prime
 import ToastService from 'primevue/toastservice';
+import ConfirmationService from 'primevue/confirmationservice';
+
 import InputText from 'primevue/inputtext'
 import Button from 'primevue/button'
 import Avatar from 'primevue/avatar'
@@ -25,6 +27,7 @@ import Skeleton from 'primevue/skeleton';
 import Dialog from 'primevue/dialog';
 import Toast from 'primevue/toast';
 import ProgressSpinner from 'primevue/progressspinner';
+import ConfirmDialog from 'primevue/confirmdialog';
 
 const app = createApp(App)
 const head = createHead()
@@ -40,6 +43,7 @@ app.component('PSkeleton', Skeleton);
 app.component('PDialog', Dialog);
 app.component('PToast', Toast);
 app.component('PProgressSpinner', ProgressSpinner);
+app.component('PConfirmDialog', ConfirmDialog);
 
 app.use(createPinia())
 app.use(router)
@@ -47,5 +51,6 @@ app.use(head)
 app.use(VueQueryPlugin)
 app.use(PrimeVue);
 app.use(ToastService);
+app.use(ConfirmationService);
 
 app.mount('#app')

@@ -2,14 +2,15 @@
 import { reactive, ref } from 'vue'
 import { useHead } from '@vueuse/head'
 import { useToast } from 'primevue/usetoast'
+import { useConfirm } from 'primevue/useconfirm'
 import CardUser from '../components/users/CardUser.vue'
 import SkeletonCard from '../components/SkeletonCard.vue'
 import CreateDialog from '../components/users/CreateDialog.vue'
 import DetailUser from '../components/users/DetailUser.vue'
 import LoadingOverlay from '../components/LoadingOverlay.vue'
 // api
-import { fetchUsers } from '../api/reqres/users.js'
-import { useInfiniteQuery, useQueryClient } from '@tanstack/vue-query'
+import { fetchUsers, deleteUsers } from '../api/reqres/users.js'
+import { useInfiniteQuery, useQueryClient, useMutation } from '@tanstack/vue-query'
 
 useHead({
   title: `Rogersovich - Users`,
@@ -22,6 +23,7 @@ useHead({
 const createDialog = ref(false)
 const detailDialog = ref(false)
 const toast = useToast()
+const confirm = useConfirm()
 const isLoad = ref(false)
 const idEdit = ref(null)
 
@@ -68,6 +70,52 @@ const handleDetail = (ID) => {
     idEdit.value = ID
   }, 500)
 }
+
+const deleteItemMutation = useMutation(
+  async () => {
+    deleteUsers(idEdit.value)
+  },
+  {
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['users'] })
+      idEdit.value = null
+      isLoad.value = false
+      toast.add({
+        severity: 'success',
+        summary: 'success',
+        detail: 'Success Delete User',
+        life: 2000
+      })
+    },
+    onError: () => {
+      idEdit.value = null
+      isLoad.value = false
+      toast.add({ severity: 'error', summary: 'error', detail: 'Failed Delete User', life: 2000 })
+    }
+  }
+)
+
+const handleDelete = (ID) => {
+  idEdit.value = ID
+  confirm.require({
+    message: 'Do you want to delete User with Id ' + ID + '?',
+    header: 'Delete Confirmation',
+    acceptClass: 'p-button-danger',
+    rejectClass: 'p-button-secondary',
+    acceptLabel: 'Delete',
+    rejectLabel: 'Cancel',
+    accept: () => {
+      isLoad.value = true
+      setTimeout(() => {
+        deleteItemMutation.mutate()
+      }, 500)
+    },
+    reject: () => {
+      idEdit.value = null
+      return true
+    }
+  })
+}
 </script>
 
 <template>
@@ -104,6 +152,7 @@ const handleDetail = (ID) => {
           :fullname="`${user.first_name} ${user.last_name}`"
           :email="user.email"
           @submitDetail="handleDetail"
+          @submitDelete="handleDelete"
         />
       </div>
       <div class="tw-col-span-12">
@@ -128,17 +177,19 @@ const handleDetail = (ID) => {
     </div>
 
     <p-toast></p-toast>
+    <p-confirm-dialog></p-confirm-dialog>
+
     <LoadingOverlay :loading="isLoad"></LoadingOverlay>
 
     <!-- Create User -->
     <CreateDialog
+      v-if="createDialog"
       v-model="createDialog"
       @toggleToast="showToast"
       @toggleLoading="isLoad = !isLoad"
     />
 
     <!-- Detail User -->
-
     <DetailUser
       v-model="detailDialog"
       :id="idEdit"
