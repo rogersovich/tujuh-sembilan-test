@@ -5,6 +5,7 @@ import { useToast } from 'primevue/usetoast'
 import CardUser from '../components/users/CardUser.vue'
 import SkeletonCard from '../components/SkeletonCard.vue'
 import CreateDialog from '../components/users/CreateDialog.vue'
+import DetailUser from '../components/users/DetailUser.vue'
 import LoadingOverlay from '../components/LoadingOverlay.vue'
 // api
 import { fetchUsers } from '../api/reqres/users.js'
@@ -19,8 +20,10 @@ useHead({
 })
 
 const createDialog = ref(false)
+const detailDialog = ref(false)
 const toast = useToast()
 const isLoad = ref(false)
+const idEdit = ref(null)
 
 // Query
 const params = reactive({
@@ -57,6 +60,14 @@ const showToast = (val) => {
   // Invalidate and refetch
   queryClient.invalidateQueries({ queryKey: ['users'] })
 }
+
+const handleDetail = (ID) => {
+  isLoad.value = true
+  setTimeout(() => {
+    detailDialog.value = true
+    idEdit.value = ID
+  }, 500)
+}
 </script>
 
 <template>
@@ -88,9 +99,11 @@ const showToast = (val) => {
         :key="user.id"
       >
         <CardUser
+          :id="user.id"
           :avatar="user.avatar"
           :fullname="`${user.first_name} ${user.last_name}`"
           :email="user.email"
+          @submitDetail="handleDetail"
         />
       </div>
       <div class="tw-col-span-12">
@@ -113,9 +126,26 @@ const showToast = (val) => {
         </div>
       </div>
     </div>
+
     <p-toast></p-toast>
     <LoadingOverlay :loading="isLoad"></LoadingOverlay>
-    <CreateDialog v-model="createDialog" @toggleToast="showToast" @toggleLoading="isLoad = !isLoad" />
+
+    <!-- Create User -->
+    <CreateDialog
+      v-model="createDialog"
+      @toggleToast="showToast"
+      @toggleLoading="isLoad = !isLoad"
+    />
+
+    <!-- Detail User -->
+
+    <DetailUser
+      v-model="detailDialog"
+      :id="idEdit"
+      @removeID="idEdit = null"
+      @toggleLoading="isLoad = false"
+      v-if="detailDialog"
+    />
   </div>
 </template>
 
