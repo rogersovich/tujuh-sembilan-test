@@ -1,8 +1,8 @@
 <script setup>
 import { ref } from 'vue'
+import { fetchMetalPrices } from '../api/gold/metal'
 import { useQuery } from '@tanstack/vue-query'
 import VueApexCharts from 'vue3-apexcharts'
-import axios from 'axios'
 import moment from 'moment'
 
 const isLoad = ref(false)
@@ -53,12 +53,6 @@ const options = ref({
     width: 3,
     curve: 'smooth'
   },
-  grid: {
-    padding: {
-      left: -5,
-      right: 5
-    }
-  },
   title: {
     text: 'Real time - Metal Price time series chart'
   },
@@ -75,15 +69,9 @@ const options = ref({
 const priceGold = useQuery({
   queryKey: ['gold-prices'],
   queryFn: async () => {
-    const response = await axios.get('https://api.metals.live/v1/spot').then((res) => {
-      return res
-    })
-
-    return response
+    return await fetchMetalPrices()
   },
-  onSuccess: (res) => {
-    const { data } = res
-
+  onSuccess: (data) => {
     const filteredItems = data.filter((item, i) => i < 4)
 
     options.value.xaxis.categories.push(moment().format('YYYY-MM-DD, HH:mm:ss'))

@@ -5,6 +5,7 @@ import { useToast } from 'primevue/usetoast'
 import { useConfirm } from 'primevue/useconfirm'
 // component
 import CardUser from '../components/users/CardUser.vue'
+import TableUser from '../components/users/TableUser.vue'
 import SkeletonCard from '../components/SkeletonCard.vue'
 import CreateUser from '../components/users/CreateUser.vue'
 import DetailUser from '../components/users/DetailUser.vue'
@@ -19,14 +20,23 @@ useHead({
   meta: [{ name: 'description', content: 'This is page of list users' }]
 })
 
+// prime vue
+const toast = useToast()
+const confirm = useConfirm()
+
 const createDialog = ref(false)
 const detailDialog = ref(false)
 const editDialog = ref(false)
-const toast = useToast()
-const confirm = useConfirm()
 const isLoad = ref(false)
 const idEdit = ref(null)
 const idUpdate = ref(null)
+
+const activeTabs = ref(0)
+const tabs = ref([{ title: 'User Card' }, { title: 'User Table' }])
+
+const onTabChange = (index) => {
+  activeTabs.value = index
+}
 
 // Fetch Api Users
 const params = reactive({
@@ -143,7 +153,13 @@ const handleDelete = (ID) => {
       <div class="tw-col-span-12">
         <div class="grid-12 tw-gap-4">
           <div class="tw-col-span-10">
-            <pInputText type="text" placeholder="Search user" class="tw-w-full tw-h-[46px]" />
+            <p-tab-view :activeIndex="activeTabs" @update:activeIndex="onTabChange">
+              <p-tab-panel v-for="(tab, i) in tabs" :key="i">
+                <template #header>
+                  <div class="tw-text-[20px] bold">{{ tab.title }}</div>
+                </template>
+              </p-tab-panel>
+            </p-tab-view>
           </div>
           <div class="tw-col-span-2">
             <p-button class="tw-w-full tw-h-[46px] tw-justify-center" @click="createDialog = true">
@@ -152,38 +168,70 @@ const handleDelete = (ID) => {
           </div>
         </div>
       </div>
-      <div
-        class="tw-col-span-3"
-        v-for="user in data.pages.flatMap((page) => page.data)"
-        :key="user.id"
-      >
-        <CardUser
-          :id="user.id"
-          :avatar="user.avatar"
-          :fullname="`${user.first_name} ${user.last_name}`"
-          :email="user.email"
-          @submitDetail="handleDetail"
-          @submitEdit="handleEdit"
-          @submitDelete="handleDelete"
-        />
-      </div>
       <div class="tw-col-span-12">
-        <div class="tw-text-center">
-          <p-button
-            outlined
-            class="tw-h-[46px] tw-justify-center"
-            :loading="isFetchingNextPage"
-            :disabled="!hasNextPage || isFetchingNextPage"
-            @click="fetchNextPage()"
-          >
-            {{
-              isFetchingNextPage
-                ? 'Loading more...'
-                : hasNextPage
-                ? 'Load more'
-                : 'Nothing more to load'
-            }}
-          </p-button>
+        <div v-if="activeTabs === 0">
+          <div class="grid-12 tw-gap-6">
+            <div
+              class="tw-col-span-3"
+              v-for="user in data.pages.flatMap((page) => page.data)"
+              :key="user.id"
+            >
+              <CardUser
+                :id="user.id"
+                :avatar="user.avatar"
+                :fullname="`${user.first_name} ${user.last_name}`"
+                :email="user.email"
+                @submitDetail="handleDetail"
+                @submitEdit="handleEdit"
+                @submitDelete="handleDelete"
+              />
+            </div>
+            <div class="tw-col-span-12">
+              <div class="tw-text-center">
+                <p-button
+                  outlined
+                  class="tw-h-[46px] tw-justify-center"
+                  :loading="isFetchingNextPage"
+                  :disabled="!hasNextPage || isFetchingNextPage"
+                  @click="fetchNextPage()"
+                >
+                  {{
+                    isFetchingNextPage
+                      ? 'Loading more...'
+                      : hasNextPage
+                      ? 'Load more'
+                      : 'Nothing more to load'
+                  }}
+                </p-button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div v-else>
+          <TableUser
+            :users="data.pages.flatMap((page) => page.data)"
+            @submitDetail="handleDetail"
+            @submitEdit="handleEdit"
+            @submitDelete="handleDelete"
+          />
+          <br />
+          <div class="tw-text-center">
+            <p-button
+              outlined
+              class="tw-h-[46px] tw-justify-center"
+              :loading="isFetchingNextPage"
+              :disabled="!hasNextPage || isFetchingNextPage"
+              @click="fetchNextPage()"
+            >
+              {{
+                isFetchingNextPage
+                  ? 'Loading more...'
+                  : hasNextPage
+                  ? 'Load more'
+                  : 'Nothing more to load'
+              }}
+            </p-button>
+          </div>
         </div>
       </div>
     </div>
@@ -221,4 +269,11 @@ const handleDelete = (ID) => {
   </div>
 </template>
 
-<style lang="css" scoped></style>
+<style lang="css" scoped>
+:deep(.p-tabview .p-tabview-panels) {
+  display: none;
+}
+:deep(.p-tabview .p-tabview-nav) {
+  border: none;
+}
+</style>

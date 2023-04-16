@@ -28,6 +28,10 @@ import Dialog from 'primevue/dialog';
 import Toast from 'primevue/toast';
 import ProgressSpinner from 'primevue/progressspinner';
 import ConfirmDialog from 'primevue/confirmdialog';
+import TabView from 'primevue/tabview';
+import TabPanel from 'primevue/tabpanel';
+import DataTable from 'primevue/datatable';
+import Column from 'primevue/column';
 
 const app = createApp(App)
 const head = createHead()
@@ -44,6 +48,10 @@ app.component('PDialog', Dialog);
 app.component('PToast', Toast);
 app.component('PProgressSpinner', ProgressSpinner);
 app.component('PConfirmDialog', ConfirmDialog);
+app.component('PTabView', TabView);
+app.component('PTabPanel', TabPanel);
+app.component('PDataTable', DataTable);
+app.component('PColumn', Column);
 
 app.use(createPinia())
 app.use(router)
