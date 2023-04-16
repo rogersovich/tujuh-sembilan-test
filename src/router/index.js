@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 // const HomeView = () => import('@/views/HomeView.vue')
 import HomeView from '@/views/HomeView.vue'
+import ChartView from '@/views/ChartView.vue'
 import HomeLayout from '@/layouts/HomeLayout.vue'
 
 const router = createRouter({
@@ -14,6 +15,14 @@ const router = createRouter({
       path: '/users',
       name: 'users',
       component: HomeView,
+      meta: {
+        layout: HomeLayout
+      }
+    },
+    {
+      path: '/chart',
+      name: 'chart',
+      component: ChartView,
       meta: {
         layout: HomeLayout
       }

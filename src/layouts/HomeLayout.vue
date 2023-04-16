@@ -1,19 +1,16 @@
 <script setup>
-import { useRouter, useRoute } from 'vue-router'
+import { useRoute } from 'vue-router'
 
-const router = useRouter()
 const route = useRoute()
 
 const listNav = [
   {
     title: 'Users',
-    key: 'users',
-    to: router.push({ name: 'users' })
+    key: 'users'
   },
   {
     title: 'Chart',
-    key: 'chart',
-    to: router.push({ name: 'users' })
+    key: 'chart'
   }
 ]
 
@@ -38,7 +35,7 @@ const routeToGithub = () => {
             v-for="nav in listNav"
             :key="nav.key"
           >
-            <router-link :to="nav.to" class="tw-text-inherit tw-no-underline">
+            <router-link :to="{ name: nav.key }" class="tw-text-inherit tw-no-underline">
               {{ nav.title }}
             </router-link>
           </li>
@@ -59,7 +56,9 @@ const routeToGithub = () => {
     </main>
 
     <footer class="tw-bg-[#0079D8] tw-p-4">
-      <div class="tw-text-white tw-text-center tw-text-[18px]">© {{ year }} design by rogersovich</div>
+      <div class="tw-text-white tw-text-center tw-text-[18px]">
+        © {{ year }} design by rogersovich
+      </div>
     </footer>
   </div>
 </template>
