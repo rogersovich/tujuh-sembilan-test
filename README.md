@@ -1,6 +1,6 @@
 # tujuh-sembilan-test App
 
-This is a Vue JS application that allows users to see list, create, detail and edit Post using the [Reqres](https://reqres.in/) API.
+This is a Vue JS application that allows to see list, create, detail, edit and delete using the [Reqres](https://reqres.in/) API. And allow to see real time chart with [Api Metal Live](https://api.metals.live/) API.
 
 ## Installation
 
