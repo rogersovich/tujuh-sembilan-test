@@ -1,41 +1,47 @@
-# tujuh-sembilan-test
+# Jtujuh-sembilan-test App
 
-This template should help get you started developing with Vue 3 in Vite.
+This is a Vue JS application that allows users to see list, create, detail and edit Post using the [Reqres](https://reqres.in/) API.
 
-## Recommended IDE Setup
+## Installation
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+1. Clone this repository to your local machine:
 
-## Customize configuration
+```bash
+git clone https://github.com/rogersovich/tujuh-sembilan-test
+```
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+2. Navigate into the project directory:
 
-## Project Setup
+```bash
+cd tujuh-sembilan-test
+```
 
-```sh
+3. Install the dependencies:
+
+```bash
 npm install
 ```
 
-### Compile and Hot-Reload for Development
+4. Start the application:
 
-```sh
+```bash
 npm run dev
 ```
 
-### Compile and Minify for Production
+## Technologies Used
+- [Vue JS](https://vuejs.org/)
+- [Vee Validate](https://vee-validate.logaretm.com/v4/)
+- [Reqres](https://reqres.in/)
+- [Api Metal Live](https://api.metals.live/)
+- [Prime Vue UI](https://primevue.org/)
+- [Tailnwind CSS](https://tailwindcss.com/)
+- [Tanstack Query](https://tanstack.com/query/v5/)
+- [Axios](https://axios-http.com/docs/intro)
+- [Yup](https://github.com/jquense/yup)
+- [Apex Chart](https://apexcharts.com/)
+- [Moment](https://momentjs.com/)
 
-```sh
-npm run build
-```
+## License
 
-### Run Unit Tests with [Vitest](https://vitest.dev/)
+This project is licensed under the [MIT License](LICENSE).
 
-```sh
-npm run test:unit
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
