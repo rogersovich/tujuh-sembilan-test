@@ -114,13 +114,16 @@ const priceGold = useQuery({
         <u>https://rapidapi.com/ai-box-ai-box-default/api/gold-price-live/</u> yang di tentukan dari
         soal, dikarenakan API tersebut memiliki max 5 pemanggilan setiap hari nya.
       </p>
-      <div>
+      <p>
         Jadi ketika masih tahap development saya tidak bisa menggunakannya. Tapi pada dasarnya API
         dari
         <u>https://api.metals.live/</u> juga menampilkan Live Gold Price. Tetapi saya tambahkan
         random number setiap merefetch data Gold Price, karena penaikan atau penurunan harga Emas
         itu relatif terlihat dalam jangka waktu yang lama tidak setiap menit seperti yang saya
-        kerjakan di chart ini, jadi saya membuat seolah olah data itu berubah setiap menitnya dengan
+        kerjakan di chart ini
+      </p>
+      <div>
+        Jadi saya membuat seolah olah data itu berubah setiap menitnya dengan
         menggabungkan Data Live Gold Prices + Random Number.
       </div>
     </div>

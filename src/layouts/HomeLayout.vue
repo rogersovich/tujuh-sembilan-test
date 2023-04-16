@@ -1,5 +1,8 @@
 <script setup>
 import { useRoute } from 'vue-router'
+import { useMediaQuery } from '@vueuse/core'
+
+const isMobile = useMediaQuery('(min-width: 320px) and (max-width: 619px)')
 
 const route = useRoute()
 
@@ -14,6 +17,7 @@ const listNav = [
   }
 ]
 
+
 const year = new Date().getFullYear()
 
 const routeToGithub = () => {
@@ -25,10 +29,10 @@ const routeToGithub = () => {
   <div>
     <header class="tw-bg-[#0079D8] grid-12 tw-gap-4 tw-py-2 tw-px-6 tw-text-white">
       <div class="tw-col-span-4 fc">
-        <div class="tw-text-[24px] medium">Rogersovich</div>
+        <div class="tw-text-[18px] md:tw-text-[24px] medium">Rogers</div>
       </div>
       <div class="tw-col-span-4 fcc">
-        <ul class="fcc tw-gap-16 tw-text-[18px] tw-list-none tw-px-0">
+        <ul class="fcc tw-gap-8 md:tw-gap-16 tw-text-[14px] md:tw-text-[18px] tw-list-none tw-px-0">
           <li
             class="tw-mb-0 hover:tw-text-[#FBBD00] hover:bold grow"
             :class="route.name === nav.key ? 'tw-text-[#FBBD00] bold' : ''"
@@ -44,7 +48,7 @@ const routeToGithub = () => {
       <div class="tw-col-span-4 fcr">
         <Iconify
           icon="radix-icons:github-logo"
-          width="40"
+          :width="isMobile ? 25 : 40"
           class="tw-cursor-pointer"
           @click="routeToGithub"
         />
@@ -56,7 +60,7 @@ const routeToGithub = () => {
     </main>
 
     <footer class="tw-bg-[#0079D8] tw-p-4">
-      <div class="tw-text-white tw-text-center tw-text-[18px]">
+      <div class="tw-text-white tw-text-center tw-text-[14px] md:tw-text-[18px]">
         © {{ year }} design by rogersovich
       </div>
     </footer>

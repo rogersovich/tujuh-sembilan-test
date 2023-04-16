@@ -21,11 +21,11 @@ const onDelete = (ID) => {
       <p-column field="id" header="Id" class="center-col body-center-col"> </p-column>
       <p-column field="avatar" header="Avatar" class="center-col">
         <template #body="slotProps">
-          <div class="fcc">
+          <div class="fcc tw-p-4 md:tw-p-2">
             <p-avatar
               :image="slotProps.data.avatar"
               shape="circle"
-              class="shadow-rainbow tw-w-[60px] tw-h-[60px]"
+              class="shadow-rainbow tw-w-[50px] md:tw-w-[60px] tw-h-[50px] md:tw-h-[60px]"
             >
             </p-avatar>
           </div>
@@ -33,7 +33,7 @@ const onDelete = (ID) => {
       </p-column>
       <p-column field="fullname" header="Fullname">
         <template #body="slotProps">
-          <div class="bold">
+          <div class="bold tw-text-[14px] md:tw-text-[16px]">
             {{ `${slotProps.data.first_name} ${slotProps.data.last_name}` }}
           </div>
         </template>

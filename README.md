@@ -1,4 +1,4 @@
-# Jtujuh-sembilan-test App
+# tujuh-sembilan-test App
 
 This is a Vue JS application that allows users to see list, create, detail and edit Post using the [Reqres](https://reqres.in/) API.
 

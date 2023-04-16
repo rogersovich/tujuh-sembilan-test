@@ -151,18 +151,18 @@ const handleDelete = (ID) => {
   <div v-else-if="isSuccess">
     <div class="grid-12 tw-gap-6">
       <div class="tw-col-span-12">
-        <div class="grid-12 tw-gap-4">
-          <div class="tw-col-span-10">
+        <div class="grid-12 tw-gap-2 md:tw-gap-4">
+          <div class="tw-col-span-8 md:tw-col-span-10">
             <p-tab-view :activeIndex="activeTabs" @update:activeIndex="onTabChange">
               <p-tab-panel v-for="(tab, i) in tabs" :key="i">
                 <template #header>
-                  <div class="tw-text-[20px] bold">{{ tab.title }}</div>
+                  <div class="tw-text-[14px] md:tw-text-[20px] bold">{{ tab.title }}</div>
                 </template>
               </p-tab-panel>
             </p-tab-view>
           </div>
-          <div class="tw-col-span-2">
-            <p-button class="tw-w-full tw-h-[46px] tw-justify-center" @click="createDialog = true">
+          <div class="tw-col-span-4 md:tw-col-span-2 fcc">
+            <p-button class="tw-w-full tw-h-[40px] md:tw-h-[46px] tw-justify-center tw-text-[14px] md:tw-text-[16px]" @click="createDialog = true">
               Create User
             </p-button>
           </div>
@@ -172,7 +172,7 @@ const handleDelete = (ID) => {
         <div v-if="activeTabs === 0">
           <div class="grid-12 tw-gap-6">
             <div
-              class="tw-col-span-3"
+              class="tw-col-span-12 md:tw-col-span-3"
               v-for="user in data.pages.flatMap((page) => page.data)"
               :key="user.id"
             >
